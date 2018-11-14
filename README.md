@@ -71,3 +71,26 @@ SELECT * FROM `table_name` WHERE name LIKE '%James%';
 
 ```
 
+
+## MySQL慢查询
+
+```bash
+# my.cnf
+
+log-slow-queries=/var/lib/mysql/slowquery.log
+long_query_time=2
+log-queries-not-using-indexes
+log-long-format
+```
+
+```bash
+mysqldumpslow -s c -t 20 host-slow.log   # 访问次数最多的20个sql语句
+mysqldumpslow -s r -t 20 host-slow.log   # 返回记录集最多的20个sql
+mysqldumpslow -t 10 -s t -g "left join" host-slow.log    # 按照时间返回前10条里面含有左连接的sql语句
+
+
+show global status like '%slow%'; # 查看现在这个session有多少个慢查询
+show variables like '%slow%';     # 查看慢查询日志是否开启，如果slow_query_log和log_slow_queries显示为on，说明服务器的慢查询日志已经开启
+show variables like '%long%';     # 查看超时阀值
+create index text_index on wei(text);   # 创建索引
+```
